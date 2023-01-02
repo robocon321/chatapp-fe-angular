@@ -1,7 +1,7 @@
-import { SignInService } from './../../shared/services/client/sign-in.service';
-import { AfterContentInit, AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SignInService } from 'src/app/shared/services/sign-in/sign-in.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -34,8 +34,14 @@ export class SignInComponent implements OnInit {
     this.formSignIn.markAsPristine();
   }
 
-  signIn() {
-    this.signInService.signIn();
+  login() {
+    this.signInService.login({
+      username: this.formSignIn.get('email')?.value,
+      password: this.formSignIn.get('password')?.value
+    }).subscribe({
+      next: res => console.log(res), 
+      error: err => console.error(err)
+    });
   }
   
 }
