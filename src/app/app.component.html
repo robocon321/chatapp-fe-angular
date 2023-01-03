@@ -1,1 +1,10 @@
-<router-outlet></router-outlet>
+<div *ngIf="!isLayout();then content else other_content">
+  Ignore here
+</div>
+<ng-template #content>
+  <app-header></app-header>
+  <router-outlet></router-outlet>
+</ng-template>
+<ng-template #other_content>
+  <router-outlet></router-outlet>
+</ng-template>

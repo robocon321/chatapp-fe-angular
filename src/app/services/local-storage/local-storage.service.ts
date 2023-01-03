@@ -1,4 +1,4 @@
-import { UserLocalStorage } from './../../../core/models/UserLocalStorage';
+import { UserLocalStorage } from '../../core/models/UserLocalStorage';
 import { Injectable } from '@angular/core';
 
 @Injectable({

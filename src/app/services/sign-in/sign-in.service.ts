@@ -1,9 +1,9 @@
-import { UserLocalStorage } from './../../../core/models/UserLocalStorage';
+import { UserLocalStorage } from './../../core/models/UserLocalStorage';
+import { LoginRequest } from './../../core/models/LoginRequest';
 import { LocalStorageService } from './../local-storage/local-storage.service';
-import { LoginRequest } from './../../../core/models/LoginRequest';
-import { ApiService } from './../../../core/services/api.service';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
+import { ApiService } from '../api/api.service';
 
 @Injectable({
   providedIn: 'root'

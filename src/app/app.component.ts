@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-pet-project-fe';
+  constructor(private router: Router) {
+  }
+
+  isLayout() : boolean {
+    const url: string = this.router.url;
+    return url === '/sign-in' || url === '/404' || url === '/sign-up';
+  }
 }
