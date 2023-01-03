@@ -1,3 +1,4 @@
+import { HomeComponent } from './pages/client/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -24,6 +25,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     SignUpComponent,
     NotFoundComponent,
     HeaderComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,

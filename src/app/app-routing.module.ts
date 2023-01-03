@@ -1,4 +1,5 @@
-import { HomeComponent } from './pages/home/home.component';
+import { ChatComponent } from './pages/client/chat/chat.component';
+import { HomeComponent } from './pages/client/home/home.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
@@ -7,6 +8,7 @@ import { SignUpComponent } from './pages/sign-up/sign-up.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
+  {path: 'chat', component: ChatComponent},
   {path: '404', component: NotFoundComponent},
   {path: 'sign-in', component: SignInComponent},
   {path: 'sign-up', component: SignUpComponent},
