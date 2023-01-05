@@ -1,3 +1,4 @@
+import { SignUpService } from './../../services/sign-up/sign-up.service';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -8,7 +9,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements OnInit {
+  error: string = '';
+  loading: boolean = false;
   formSignUp!: FormGroup;
+
   signUp_messages = {
     email: [
       { type: 'required', message: 'Email is required'},
@@ -25,7 +29,7 @@ export class SignUpComponent implements OnInit {
     ]
   }
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private _signUp: SignUpService) { }
 
   ngOnInit() {
     this.formSignUp = this.formBuilder.group({
@@ -43,6 +47,18 @@ export class SignUpComponent implements OnInit {
   }
 
   register() {
-    console.log(this.formSignUp.value);
+    this.loading = true;
+    this._signUp.register({
+      email: this.formSignUp.get('email')?.value,
+      password: this.formSignUp.get('password')?.value
+    }).subscribe({
+      next: (newUser) => {
+        this.router.navigate(['/sign-in']);
+      },
+      error: (error) => {
+        this.error = error;
+        this.loading = false;
+      }
+    })
   }
 }

@@ -9,6 +9,8 @@ import { SignInService } from 'src/app/services/sign-in/sign-in.service';
   styleUrls: ['./sign-in.component.css']
 })
 export class SignInComponent implements OnInit {
+  loading: boolean = false;
+  error: string = '';
   formSignIn!: FormGroup;
 
   signIn_messages = {
@@ -35,6 +37,7 @@ export class SignInComponent implements OnInit {
   }
 
   login() {
+    this.loading = true;
     this.signInService.login({
       username: this.formSignIn.get('email')?.value,
       password: this.formSignIn.get('password')?.value
@@ -43,7 +46,11 @@ export class SignInComponent implements OnInit {
         if(res.role == 'ADMIN') this.router.navigate(['/admin']);
         else this.router.navigate(['/']);
       }, 
-      error: err => console.error(err)
+      error: err => {
+        console.error(err);
+        this.error = err.message;
+        this.loading = false;
+      }
     });
   }
   

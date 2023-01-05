@@ -1,3 +1,4 @@
+import { LoadingComponent } from './components/loading/loading.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -25,6 +26,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     SignUpComponent,
     NotFoundComponent,
     HeaderComponent,
+    LoadingComponent
   ],
   imports: [
     CommonModule,
