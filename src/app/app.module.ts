@@ -9,6 +9,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatRippleModule } from "@angular/material/core";
+import {MatIconModule} from '@angular/material/icon'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -37,6 +38,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     MatFormFieldModule,
     MatInputModule,
     MatRippleModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

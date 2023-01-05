@@ -39,7 +39,10 @@ export class SignInComponent implements OnInit {
       username: this.formSignIn.get('email')?.value,
       password: this.formSignIn.get('password')?.value
     }).subscribe({
-      next: res => console.log(res), 
+      next: res => {
+        if(res.role == 'ADMIN') this.router.navigate(['/admin']);
+        else this.router.navigate(['/']);
+      }, 
       error: err => console.error(err)
     });
   }

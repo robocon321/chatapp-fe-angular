@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { observable, Subscriber, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,11 +8,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(private router: Router) {
-  }
+  useLayout: boolean = false;
 
-  isLayout() : boolean {
-    const url: string = this.router.url;
-    return url === '/sign-in' || url === '/404' || url === '/sign-up';
+  constructor(private router: Router) {
+    this.router.events.forEach((event) => {
+      if (event instanceof NavigationEnd) {
+        const { url } = this.router;
+        this.useLayout = !(url == '/sign-in' || url == '/404' || url == '/sign-up');
+      }
+    });
   }
 }
