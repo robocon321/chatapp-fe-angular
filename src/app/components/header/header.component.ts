@@ -8,7 +8,7 @@ import { Component, DoCheck, OnChanges, OnInit, SimpleChanges } from '@angular/c
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit, OnChanges, DoCheck {
+export class HeaderComponent implements OnInit, DoCheck {
   userInfo: UserLocalStorage;
   url: string = '';
   constructor(private router: Router, private _localStorage: LocalStorageService) {
@@ -16,17 +16,11 @@ export class HeaderComponent implements OnInit, OnChanges, DoCheck {
    }
 
   ngDoCheck(): void {
-    console.log("Do Check", this.url);
     this.url = this.router.url;
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("Change", this.url);
   }
 
   ngOnInit() {
     this.url = this.router.url;
-    console.log("Init", this.url);
   }
 
   logout () {

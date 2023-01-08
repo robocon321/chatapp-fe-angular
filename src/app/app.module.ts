@@ -1,3 +1,4 @@
+import { CreateBlogComponent } from './pages/admin/create-blog/create-blog.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NgModule } from '@angular/core';
@@ -5,12 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { MatButtonModule } from "@angular/material/button";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { MatRippleModule } from "@angular/material/core";
-import {MatIconModule} from '@angular/material/icon'
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,7 +22,8 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     SignUpComponent,
     NotFoundComponent,
     HeaderComponent,
-    LoadingComponent
+    LoadingComponent,
+    CreateBlogComponent
   ],
   imports: [
     CommonModule,
@@ -36,11 +33,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatRippleModule,
-    MatIconModule
+    CKEditorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
