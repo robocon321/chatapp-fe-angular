@@ -1,6 +1,6 @@
-import { Observable, map } from 'rxjs';
-import { ApiService } from './../api/api.service';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { catchError, Observable, throwError } from 'rxjs';
 import { RegisterRequest } from 'src/app/core/models/RegisterRequest';
 import { environment } from 'src/environments/environment';
 
@@ -8,11 +8,13 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class SignUpService {
-  private apiUrl: string = environment.apiUrl;
+  private apiUrl: string = environment.authUrl;
 
-  constructor(private _api: ApiService) { }
+  constructor(private http: HttpClient) { }
 
   register(register: RegisterRequest): Observable<any> {
-    return this._api.post(`${this.apiUrl}/sign-up`, register);
+    return this.http
+    .post(`${this.apiUrl}/sign-up`, register)
+    .pipe(catchError((error: any) => throwError(error.error)));
   }
 }

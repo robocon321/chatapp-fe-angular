@@ -1,22 +1,23 @@
-import { UserLocalStorage } from './../../core/models/UserLocalStorage';
-import { LoginRequest } from './../../core/models/LoginRequest';
-import { LocalStorageService } from './../local-storage/local-storage.service';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
-import { ApiService } from '../api/api.service';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { LoginRequest } from './../../core/models/LoginRequest';
+import { UserLocalStorage } from './../../core/models/UserLocalStorage';
+import { LocalStorageService } from './../local-storage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignInService {
-  private apiUrl = environment.apiUrl;
-  constructor(private _api: ApiService, private _token: LocalStorageService) { 
+  private apiUrl = environment.authUrl;
+  constructor(private http: HttpClient, private _token: LocalStorageService) { 
   }
 
   login(loginRequest: LoginRequest): Observable<any> {
-    return this._api
-    .post(`${this.apiUrl}/sign-in`, loginRequest)
+    return this.http
+    .post(`${this.apiUrl}/api/auth/sign-in`, loginRequest)
+    .pipe(catchError((error: any) => throwError(error.error)))
     .pipe(map((res: any) => {
       const userInfo: UserLocalStorage = {
         token: res.token,
