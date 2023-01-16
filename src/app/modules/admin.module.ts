@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   declarations: [DashboardComponent, BlogComponent],
   imports: [
     CommonModule,
-    AdminRoutes
+    AdminRoutes    
   ],
 })
 export class AdminModule { }

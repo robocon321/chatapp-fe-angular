@@ -40,7 +40,7 @@
       <div class="group my-10">
         <ckeditor [editor]="Editor" name="description" [config]="editorConfig" [(ngModel)]="$form.description" (change)="check()"></ckeditor>
       </div>
-      <button [ngClass]="enableSubmit ? 'bg-blue-500 hover:bg-blue-700 text-white' : 'bg-blue-200 hover:bg-blue-200'" class="text-white font-bold py-2 px-4 rounded" [disabled]="!enableSubmit">Submit</button>
+      <button [ngClass]="enableSubmit ? 'bg-blue-500 hover:bg-blue-700 ' : 'bg-blue-200 hover:bg-blue-200'" class="text-white font-bold py-2 px-4 rounded" [disabled]="!enableSubmit">Submit</button>
     </form>
   </div>  
 </div>
