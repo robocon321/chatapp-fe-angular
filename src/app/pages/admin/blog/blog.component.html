@@ -1,30 +1,37 @@
-
+<app-loading *ngIf="loading"></app-loading>
 <div class="w-full flex justify-center my-10">
   <div class="container">
     <div class="flex items-center ml-3">      
-      <form class="my-10 w-11/12">   
+      <form class="my-10 w-11/12" #form="ngForm">   
         <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
         <div class="relative">
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             </div>
-            <input type="search" id="default-search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos..." required>
-            <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+            <input 
+              class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Search Mockups, Logos..." 
+              required 
+              type="search"
+              [(ngModel)]="title"
+              name="title"
+              id="default-search">
+            <button (click)="submitSearch()" type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
         </div>
       </form>
       <button class="w-1/12 p-4 ml-3 h-full bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded" routerLink="/admin/create-blog">New</button>
     </div>
-    <div class="flex justify-between items-center p-10 rounded overflow-hidden shadow-lg">
-      <a routerLink="#" class="text-blue-600 text-3xl" >Hello world</a>
+    <div *ngFor="let blog of blogs" class="flex justify-between items-center p-10 rounded overflow-hidden shadow-lg">
+      <a routerLink="#" class="text-blue-600 text-3xl" >{{blog.title}}</a>
       <div class="btn">
         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">Edit</button>
         <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
       </div>
-    </div>
+    </div>  
 
-    <div class="my-10 flex justify-center">
+    <div class="my-10 flex justify-center" *ngIf="totalPages > 0">
       <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-        <a href="#" class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+        <a (click)="changePage(pageIndex - 1)" href="#" [ngClass]="{'hidden': pageIndex - 1 >= totalPages || pageIndex - 1 < 1}" class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
           <span class="sr-only">Previous</span>
           <!-- Heroicon name: mini/chevron-left -->
           <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -32,14 +39,10 @@
           </svg>
         </a>
         <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
-        <a href="#" aria-current="page" class="relative z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20">1</a>
-        <a href="#" class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">2</a>
-        <a href="#" class="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex">3</a>
-        <span class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700">...</span>
-        <a href="#" class="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex">8</a>
-        <a href="#" class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">9</a>
-        <a href="#" class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">10</a>
-        <a href="#" class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+        <a (click)="changePage(pageIndex - 1)" aria-current="page" [ngClass]="{'hidden': pageIndex - 1 >= totalPages || pageIndex - 1 < 1}" class="relative z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20">{{pageIndex - 1}}</a>
+        <a (click)="changePage(pageIndex)" [ngClass]="{'hidden': pageIndex >= totalPages || pageIndex < 1}" class="relative inline-flex items-center border border-indigo-500 px-4 py-2 text-sm font-medium text-white bg-blue-600 focus:z-20">{{pageIndex}}</a>
+        <a (click)="changePage(pageIndex + 1)" aria-current="page" [ngClass]="{'hidden': pageIndex >= totalPages || pageIndex + 1 < 1}" class="relative z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20">{{pageIndex + 1}}</a>
+        <a (click)="changePage(pageIndex + 1)" [ngClass]="{'hidden': pageIndex >= totalPages  || pageIndex + 1 < 1}" class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
           <span class="sr-only">Next</span>
           <!-- Heroicon name: mini/chevron-right -->
           <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

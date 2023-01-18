@@ -1,3 +1,4 @@
+import { LoadingModule } from './modules/loading/loading.module';
 import { AuthGuardService } from './services/auth-guard/auth-guard.service';
 import { AdminModule } from './modules/admin.module';
 import { ClientModule } from './modules/client.module';
@@ -18,6 +19,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule, LoadingModule]
 })
 export class AppRoutingModule { }
