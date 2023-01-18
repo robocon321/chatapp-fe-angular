@@ -27,7 +27,16 @@ export class BlogService {
     .pipe(catchError((error: any) => {
       return throwError(error.error)
     }));
-
   }
 
+  deleteBlog(id: string): Observable<any> {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Bearer ' + this._token.getUser().token);    
+    
+    return this.http
+    .delete(`${this.blogUrl}/api/blog`, {body: id, headers})
+    .pipe(catchError((error: any) => {
+      return throwError(error.error)
+    }));
+  }
 }

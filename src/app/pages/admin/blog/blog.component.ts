@@ -96,5 +96,34 @@ export class BlogComponent implements OnInit {
     this.route.navigate(['admin', 'manage-blog'], { queryParams: { ...filter } });
     this.loadPage();
   }
+
+  deleteBlog(id: string) {
+    this.loading = true;
+    this._blog.deleteBlog(id).subscribe({
+      next: (res) => {
+        this.loadPage();
+      },
+      error: (error) => {
+        if (error.status == 401) {
+          this._auth.refreshToken().subscribe({
+            next: (res) => {
+              this._localStorage.setUser({ ...this._localStorage.getUser(), token: res });
+              this._blog.deleteBlog(id).subscribe({
+                next: (res) => {
+                  this.loadPage();
+                }
+              });
+            },
+            error: (error) => this.route.navigate(['/sign-in'])
+          })
+        } else {
+          this.loading = false;
+          this.error = error.message;
+        }
+      },
+
+    })
+
+  }
 }
 
