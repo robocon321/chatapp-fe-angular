@@ -55,14 +55,20 @@ export class CreateBlogComponent implements OnInit {
     this.loading = true;
     if(this.enableSubmit && this.$form.image != null) {
       this._createBlog.save(this.$form).subscribe({
-        next: (res) => this.route.navigate(['/admin/manage-blog']),
+        next: (res) => {
+          this.loading = false;
+          this.route.navigate(['/admin/manage-blog'])
+        },
         error: (error) => {
           if(error.status == 401) {
             this._auth.refreshToken().subscribe({
               next: (res) => {
                 this._localStorage.setUser({ ...this._localStorage.getUser(), token: res});
                 this._createBlog.save(this.$form).subscribe({
-                  next: (res) => this.route.navigate(['/admin/manage-blog'])
+                  next: (res) => {
+                    this.route.navigate(['/admin/manage-blog']);
+                    this.loading = false;
+                  }
                 });                
               },
               error: (error) => this.route.navigate(['/sign-in'])

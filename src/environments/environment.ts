@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   authUrl: 'http://localhost:8080',
   blogUrl: 'http://localhost:8081',
+  fileUrl: 'http://localhost:8001',
   USER_KEY: 'USER_KEY',
 };
 

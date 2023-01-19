@@ -1,3 +1,4 @@
+import { EditBlogComponent } from './../pages/admin/edit-blog/edit-blog.component';
 import { LoadingModule } from './loading/loading.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateBlogComponent } from './../pages/admin/create-blog/create-blog.component';
@@ -9,7 +10,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
-  declarations: [DashboardComponent, BlogComponent, CreateBlogComponent],
+  declarations: [DashboardComponent, BlogComponent, CreateBlogComponent, EditBlogComponent],
   imports: [
     CKEditorModule,
     CommonModule,
