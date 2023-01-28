@@ -14,7 +14,7 @@ export class SignUpService {
 
   register(register: RegisterRequest): Observable<any> {
     return this.http
-    .post(`${this.apiUrl}/sign-up`, register)
+    .post(`${this.apiUrl}/api/auth/sign-up`, register)
     .pipe(catchError((error: any) => throwError(error.error)));
   }
 }
