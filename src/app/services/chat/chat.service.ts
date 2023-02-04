@@ -1,3 +1,4 @@
+import { CreateRoomRequest } from './../../core/models/CreateRoomRequest';
 import { LocalStorageService } from './../local-storage/local-storage.service';
 import { Observable, catchError, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -26,5 +27,32 @@ export class ChatService {
     .pipe(catchError((error: any) => {
       return throwError(error.error)
     }));
+  }
+
+  createNewRoom(request: CreateRoomRequest) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Bearer ' + this._token.getUser().token);    
+    
+    return this.http
+    .post(`${this.chatUrl}/api/chat/room`, request, {
+      headers
+    })
+    .pipe(catchError((error: any) => {
+      return throwError(error.error)
+    }));
+  }
+
+  loadRoom() {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Bearer ' + this._token.getUser().token);    
+
+    return this.http
+    .get(`${this.chatUrl}/api/chat/room`, {
+      headers
+    })
+    .pipe(catchError((error: any) => {
+      return throwError(error.error)
+    }));
+
   }
 }

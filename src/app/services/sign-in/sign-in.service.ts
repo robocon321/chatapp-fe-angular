@@ -20,6 +20,7 @@ export class SignInService {
     .pipe(catchError((error: any) => throwError(error.error)))
     .pipe(map((res: any) => {
       const userInfo: UserLocalStorage = {
+        id: res.id,
         token: res.token,
         refreshToken: res.refreshToken,
         email: res.email,
