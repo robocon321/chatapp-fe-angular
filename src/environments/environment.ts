@@ -4,10 +4,10 @@
 
 export const environment = {
   production: false,
-  authUrl: 'http://localhost:8080',
-  blogUrl: 'http://localhost:8081',
-  chatUrl: 'http://localhost:8082',
-  fileUrl: 'http://localhost:8001',
+  authUrl: 'http://localhost:8000',
+  blogUrl: 'http://localhost:8000',
+  chatUrl: 'http://localhost:8000',
+  fileUrl: 'http://localhost:8000',
   USER_KEY: 'USER_KEY',
 };
 
