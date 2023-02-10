@@ -1,5 +1,5 @@
 export class MessageRequest {
-  receiverName?: string;
-  message?: string;
-  token?: string;
+	content: string = '';
+	roomId: string = '';
+	replyToId: string = '';
 }

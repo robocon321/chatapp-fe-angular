@@ -1,3 +1,4 @@
+import { MessageRequest } from './../../core/models/MessageRequest';
 import { CreateRoomRequest } from './../../core/models/CreateRoomRequest';
 import { LocalStorageService } from './../local-storage/local-storage.service';
 import { Observable, catchError, throwError } from 'rxjs';
@@ -53,6 +54,34 @@ export class ChatService {
     .pipe(catchError((error: any) => {
       return throwError(error.error)
     }));
+  }
 
+  sendMessage(request: MessageRequest) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Bearer ' + this._token.getUser().token);    
+    
+    return this.http
+    .post(`${this.chatUrl}/api/chat/chat-line`, request, {
+      headers
+    })
+    .pipe(catchError((error: any) => {
+      return throwError(error.error)
+    }));
+  }
+
+  loadMessages(roomId: string) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Bearer ' + this._token.getUser().token);    
+
+    return this.http
+    .get(`${this.chatUrl}/api/chat/chat-line`, {
+      headers,
+      params: {
+        roomId
+      }
+    })
+    .pipe(catchError((error: any) => {
+      return throwError(error.error)
+    }));
   }
 }

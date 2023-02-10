@@ -29,6 +29,7 @@ export class ChatComponent implements OnInit {
   rooms: any;
   error: string = '';
   tab: any;
+  chat_lines: any;
 
 
   constructor(
@@ -36,15 +37,14 @@ export class ChatComponent implements OnInit {
     private _chat: ChatService,
     private _auth: AuthService,
     private route: Router,
-    private _localStorage: LocalStorageService) 
-  { }
+    private _localStorage: LocalStorageService) { }
 
   ngOnInit() {
     var user = this._localStorage.getUser();
     this._rxStomp.watch('/user/' + user.id + '/new-room/private').subscribe((message: Message) => {
       this.rooms.push(JSON.parse(message.body));
     });
-    this.loadRoom();    
+    this.loadRoom();
   }
 
   closeCreateNewRoomChatModal() {
@@ -77,7 +77,8 @@ export class ChatComponent implements OnInit {
                 error: (error) => {
                   console.error(error);
                 }
-            })},
+              })
+            },
             error: (error) => this.route.navigate(['/sign-in'])
           })
         }
@@ -118,7 +119,7 @@ export class ChatComponent implements OnInit {
     this._chat.loadRoom().subscribe({
       next: (res) => {
         this.rooms = res;
-        if(this.rooms.length) {
+        if (this.rooms.length) {
           this.chooseTab(this.rooms[0]);
         }
       },
@@ -130,20 +131,21 @@ export class ChatComponent implements OnInit {
               this._chat.loadRoom().subscribe({
                 next: (res) => {
                   this.rooms = res;
-                  if(this.rooms.length) {
+                  if (this.rooms.length) {
                     this.chooseTab(this.rooms[0]);
                   }
                 },
                 error: (error) => {
                   console.error(error);
                 }
-            })},
+              })
+            },
             error: (error) => this.route.navigate(['/sign-in'])
           })
         }
       }
     });
-    
+
   }
 
   selectMember(user: any) {
@@ -159,18 +161,74 @@ export class ChatComponent implements OnInit {
     return this.selectedMembers.find(item => item.id == user.id);
   }
 
-  sendMessage($event: any) {    
+  sendMessage($event: any) {
     var request = new MessageRequest();
-    request.message = $event.target.value;
-    request.receiverName = this.tab?.id;
-    this._rxStomp.publish({ destination: '/app/message', body: JSON.stringify(request) });
-    // this._rxStomp.publish({ destination: '/app/private-message', body: JSON.stringify(request) });
+    request.content = $event.target.value;
+    request.roomId = this.tab?.id;
+
+    this._chat.sendMessage(request).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (error) => {
+        if (error.status == 401) {
+          this._auth.refreshToken().subscribe({
+            next: (res) => {
+              this._localStorage.setUser({ ...this._localStorage.getUser(), token: res });
+              this._chat.sendMessage(request).subscribe({
+                next: (res) => {
+                  console.log(res);
+                },
+                error: (error) => {
+                  console.error(error);
+                }
+              })
+            },
+            error: (error) => this.route.navigate(['/sign-in'])
+          })
+        }
+      }
+    });
   }
 
   chooseTab(tab: any) {
     this.tab = tab;
-    // this._rxStomp.watch('/user/' + this.tab.id+'/private').subscribe((message: Message) => {
-    //   console.log('Tab ' + this.tab.id + ' received ' + message.body);
-    // });
+    this.loadMessages();
+    this._rxStomp.watch('/user/' + this.tab.id + '/room/private').subscribe((message: Message) => {
+      this.chat_lines.push(JSON.parse(message.body));
+    });
+  }
+
+  loadMessages() {
+    this._chat.loadMessages(this.tab.id).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.chat_lines = res;
+      },
+      error: (error) => {
+        if (error.status == 401) {
+          this._auth.refreshToken().subscribe({
+            next: (res) => {
+              this._localStorage.setUser({ ...this._localStorage.getUser(), token: res });
+              this._chat.loadMessages(this.tab.id).subscribe({
+                next: (res) => {
+                  console.log(res);
+                  this.chat_lines = res;
+                },
+                error: (error) => {
+                  console.error(error);
+                }
+              })
+            },
+            error: (error) => this.route.navigate(['/sign-in'])
+          })
+        }
+      }
+    });
+
+  }
+
+  checkOwnChatLine(chatLine: any) {
+    return this._localStorage.getUser().email == chatLine.createBy.email;
   }
 }
