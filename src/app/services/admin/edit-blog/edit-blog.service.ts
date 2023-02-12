@@ -16,8 +16,6 @@ export class EditBlogService {
   constructor(private http: HttpClient, private _token: LocalStorageService) { }
 
   update($updateBlog: EditBlogRequest, imgTemp: any): Observable<any> {
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + this._token.getUser().token);
     const formData = new FormData();
 
     formData.append('id', $updateBlog.id!);
@@ -27,17 +25,15 @@ export class EditBlogService {
 
 
     return this.http
-      .put(`${this.blogUrl}/api/blog`, formData, { headers })
+      .put(`${this.blogUrl}/api/blog`, formData)
       .pipe(catchError((error: any) => {
         return throwError(error.error)
       }));
   }
 
   loadBlog(id: string): Observable<any> {
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + this._token.getUser().token);
     return this.http
-      .get(`${this.blogUrl}/api/blog/${id}`, { headers })
+      .get(`${this.blogUrl}/api/blog/${id}`)
       .pipe(catchError((error: any) => {
         return throwError(error.error)
       }));

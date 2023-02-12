@@ -14,8 +14,6 @@ export class HomeService {
   constructor(private http: HttpClient, private _token: LocalStorageService) { }
 
   loadBlog(pageRequest: PageRequest, filter: any): Observable<any> {
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + this._token.getUser().token);    
     let params = {
       ...pageRequest.pageable,
       page: pageRequest.pageable.page - 1,
@@ -23,7 +21,7 @@ export class HomeService {
     };
     
     return this.http
-    .get(`${this.blogUrl}/api/blog`, { params, headers })
+    .get(`${this.blogUrl}/api/blog`, { params })
     .pipe(catchError((error: any) => {
       return throwError(error.error)
     }));

@@ -1,8 +1,9 @@
+import { AssignTokenInterceptor } from './core/interceptors/AssignTokenInterceptor';
 import { ClickStopPropagation } from './directives/click-stop-propagation.directive';
 import { RxStompService } from './services/rx-stomp/rx-stomp.service';
 import { LoadingModule } from './modules/loading/loading.module';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -37,7 +38,12 @@ import { rxStompServiceFactory } from './utils/rx-stomp-service-factory';
     {
       provide: RxStompService,
       useFactory: rxStompServiceFactory,
-    },    
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AssignTokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

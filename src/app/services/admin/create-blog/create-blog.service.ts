@@ -14,8 +14,6 @@ export class CreateBlogService {
   constructor(private http: HttpClient, private _token: LocalStorageService) { }
 
   save($createBlog : CreateBlogRequest): Observable<any> {    
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + this._token.getUser().token);
     const formData =  new FormData();
 
     formData.append('title', $createBlog.title!);
@@ -24,7 +22,7 @@ export class CreateBlogService {
 
 
     return this.http
-    .post(`${this.blogUrl}/api/blog`, formData, { headers })
+    .post(`${this.blogUrl}/api/blog`, formData)
     .pipe(catchError((error: any) => {
       return throwError(error.error)
     }));

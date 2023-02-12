@@ -14,8 +14,6 @@ export class BlogService {
   constructor(private http: HttpClient, private _token: LocalStorageService) { }
 
   loadBlog(pageRequest: PageRequest, filter: any): Observable<any> {
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + this._token.getUser().token);    
     let params = {
       ...pageRequest.pageable,
       page: pageRequest.pageable.page - 1,
@@ -23,18 +21,15 @@ export class BlogService {
     };
     
     return this.http
-    .get(`${this.blogUrl}/api/blog`, { params, headers })
+    .get(`${this.blogUrl}/api/blog`, { params })
     .pipe(catchError((error: any) => {
       return throwError(error.error)
     }));
   }
 
   deleteBlog(id: string): Observable<any> {
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + this._token.getUser().token);    
-    
     return this.http
-    .delete(`${this.blogUrl}/api/blog`, {body: id, headers})
+    .delete(`${this.blogUrl}/api/blog`, {body: id})
     .pipe(catchError((error: any) => {
       return throwError(error.error)
     }));

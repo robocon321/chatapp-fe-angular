@@ -17,7 +17,10 @@ export class SignInService {
   login(loginRequest: LoginRequest): Observable<any> {
     return this.http
     .post(`${this.apiUrl}/api/auth/sign-in`, loginRequest)
-    .pipe(catchError((error: any) => throwError(error.error)))
+    .pipe(catchError((error: any) => {
+      console.log(error);
+      return throwError(error.error);
+    }))
     .pipe(map((res: any) => {
       const userInfo: UserLocalStorage = {
         id: res.id,

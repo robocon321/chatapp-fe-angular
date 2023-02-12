@@ -15,12 +15,8 @@ export class ChatService {
   constructor(private http: HttpClient, private _token: LocalStorageService) { }
 
   search(searchText: string): Observable<any> {
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + this._token.getUser().token);    
-
     return this.http
     .get(`${this.chatUrl}/api/user`, {
-      headers,
       params: {
         email: searchText
       }
@@ -31,51 +27,32 @@ export class ChatService {
   }
 
   createNewRoom(request: CreateRoomRequest) {
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + this._token.getUser().token);    
-    
     return this.http
-    .post(`${this.chatUrl}/api/chat/room`, request, {
-      headers
-    })
+    .post(`${this.chatUrl}/api/chat/room`, request)
     .pipe(catchError((error: any) => {
       return throwError(error.error)
     }));
   }
 
   loadRoom() {
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + this._token.getUser().token);    
-
     return this.http
-    .get(`${this.chatUrl}/api/chat/room`, {
-      headers
-    })
+    .get(`${this.chatUrl}/api/chat/room`)
     .pipe(catchError((error: any) => {
       return throwError(error.error)
     }));
   }
 
   sendMessage(request: MessageRequest) {
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + this._token.getUser().token);    
-    
     return this.http
-    .post(`${this.chatUrl}/api/chat/chat-line`, request, {
-      headers
-    })
+    .post(`${this.chatUrl}/api/chat/chat-line`, request)
     .pipe(catchError((error: any) => {
       return throwError(error.error)
     }));
   }
 
   loadMessages(roomId: string) {
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + this._token.getUser().token);    
-
     return this.http
     .get(`${this.chatUrl}/api/chat/chat-line`, {
-      headers,
       params: {
         roomId
       }

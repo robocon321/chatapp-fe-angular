@@ -45,7 +45,6 @@ export class HomeComponent implements OnInit {
     this.loading = true;
     this._home.loadBlog(this.pageRequest, filter).subscribe({
       next: (res) => {
-        console.log(res)
         this.totalElements = res.totalElements;
         this.totalPages = res.totalPages;
         this.pageIndex = res.number + 1;

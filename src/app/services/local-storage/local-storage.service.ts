@@ -11,7 +11,7 @@ export class LocalStorageService {
   constructor() { }
 
   public getUser(): any {
-    return JSON.parse(localStorage.getItem(this.USER_KEY) || "");
+    return JSON.parse(localStorage.getItem(this.USER_KEY) || "null");
   }
 
   public setUser(user: UserLocalStorage): any {
